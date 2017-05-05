@@ -11,7 +11,7 @@ public:
 	virtual int ListenInputSignal(int InputKeyID);
 private:
 	Point2D Position;
-	Sprite Sprite;
+	Sprite MySprite;
 	//PhysicsBody PhysBody;
 };
 
