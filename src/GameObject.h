@@ -14,16 +14,18 @@ private:
 	Sprite MySprite;
 	//PhysicsBody PhysBody;
 };
-
+/*
 class GameObject_Player : public GameObject {
 public:
+	GameObject_Player() { iHP = 100; super = 0; };
 	int ListenInputSignal(int InputKeyID);
 	void OnCollid(int canshu);
 private:
 	int iHP;
-
+	bool super;
 };
-
+*/
+/*
 int GameObject_Player::ListenInputSignal(int InputKeyID) {
 	switch (InputKeyID) {
 	case KEY_UP:
@@ -35,6 +37,6 @@ int GameObject_Player::ListenInputSignal(int InputKeyID) {
 	case KEY_RIGHT:
 	}
 }
-
+*/
 #endif //GAME_OBJECT_H_INCLUDE
 

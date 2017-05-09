@@ -5,7 +5,7 @@
 PhysicsBody::PhysicsBody() {
 
 }
-
+/*
 bool PhysicsBody::CollideWithBody(PhysicsBody bodyB) {
 	switch (bodyB.iType)
 	{
@@ -21,8 +21,9 @@ bool PhysicsBody::CollideWithBody(PhysicsBody bodyB) {
 		break;
 		
 	case 1://circle
-
+		
 	default:
 		break;
 	}
 }
+*/

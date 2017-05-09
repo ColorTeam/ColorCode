@@ -4,14 +4,51 @@
 #include <windows.h>
 #include <conio.h>
 
+typedef unsigned char u8;
+typedef unsigned int  u32;
+
+class BigTex {
+public:
+	u32 *data;
+	int width, height;
+	BigTex(int x, int y, u32* d) {
+		width = x;
+		height = y;
+		data = d;
+	}
+	BigTex() {
+		width = 0;
+		height = 0;
+		data = NULL;
+	}
+};
+
+int gl_work_init(int width0, int height0, BigTex bigtex);
+
+struct Vec2f {
+	float x;
+	float y;
+	Vec2f(float a, float b) {
+		x = a;
+		y = b;
+	}
+};
+
+struct Vec2i {
+	int x;
+	int y;
+	Vec2i(int a, int b) {
+		x = a;
+		y = b;
+	}
+};
+
 struct Point2D {
 	int x;
 	int y;
 };
 
-GLuint VBO;
-GLuint EBO;
-
+/*
 int ListenUserInput() {
 	char ch;
 	int i = 0;
@@ -26,5 +63,5 @@ int ListenUserInput() {
 		printf("Number: %d\n", ++i);
 	}
 }
-
+*/
 #endif //UTILS_C_INCLUDE
