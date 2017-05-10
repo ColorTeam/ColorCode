@@ -4,6 +4,8 @@
 #include <windows.h>
 #include <conio.h>
 
+#define MAXNUM 1e9
+
 typedef unsigned char u8;
 typedef unsigned int  u32;
 

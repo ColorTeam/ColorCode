@@ -1,29 +1,39 @@
+#include <iostream>
 #include <cstdio>
 #include <cmath>
+
 #include "PhysicsBody.h"
 
 PhysicsBody::PhysicsBody() {
+	outBox = CreateOutBox(bboxList);
+}
+
+PhysicsBody::PhysicsBody(float posX, float posY, float width, float height, int type = 0, float rotate = 0.0) {
 
 }
-/*
-bool PhysicsBody::CollideWithBody(PhysicsBody bodyB) {
-	switch (bodyB.iType)
+
+//for Rotate
+BoundingBox PhysicsBody::CreateAABB(BoundingBox bbox) {
+	//float maxX = 0, minX = MAXNUM, maxY = 0, minY = MAXNUM;
+	BoundingBox bigBox(MAXNUM, MAXNUM, 0, 0, 0);
+
+	return bigBox;
+}
+
+BoundingBox PhysicsBody::CreateOutBox(std::vector<BoundingBox> bboxs) {
+	//float maxX = 0, minX = MAXNUM, maxY = 0, minY = MAXNUM;
+	BoundingBox bigBox(MAXNUM, MAXNUM, 0, 0, 0);
+	for (unsigned int i = 0; i < bboxs.size(); i++)
 	{
-	case 0://rect
-		float disWidth  = std::abs((Position.x + fWidth/2) -(bodyB.Position.x + bodyB.fWidth/2));
-		float disHeight = std::abs((Position.y + fHeight/2)-(bodyB.Position.y + bodyB.fHeight/2));
-		float sumHalfWidth = (fWidth + bodyB.fWidth) / 2;
-		float sumHalfHeight = (fHeight + bodyB.fHeight) / 2;
+		if (bboxs[i].Position.x < bigBox.Position.x)
+			bigBox.Position.x = bboxs[i].Position.x;
+		if (bboxs[i].Position.x + bboxs[i].fWidth > bigBox.Position.x + bigBox.fWidth)
+			bigBox.fWidth = bboxs[i].Position.x + bboxs[i].fWidth - bigBox.Position.x;
 
-		if ((disWidth<sumHalfWidth) && (disHeight<sumHalfHeight)) {
-
-		}
-		break;
-		
-	case 1://circle
-		
-	default:
-		break;
+		if (bboxs[i].Position.y < bigBox.Position.y)
+			bigBox.Position.y = bboxs[i].Position.y;
+		if (bboxs[i].Position.y + bboxs[i].fHeight > bigBox.Position.y + bigBox.fHeight)
+			bigBox.fHeight = bboxs[i].Position.y + bboxs[i].fHeight - bigBox.Position.y;
 	}
+	return bigBox;
 }
-*/

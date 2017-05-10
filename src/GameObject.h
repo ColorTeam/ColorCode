@@ -3,6 +3,7 @@
 
 #include "utils.h"
 #include "Sprite.h"
+#include "PhysicsBody.h"
 #include <freeglut.h>
 #include <vector>
 
@@ -17,10 +18,11 @@ public:
 		printf("x: %.1f; y: %.1f;\n", Position.x, Position.y);
 	}
 	virtual bool OnKeyboard(int Key)=0;
+
+	PhysicsBody PhysBody;
 protected:
 	Vec2f Position;
 	Sprite MySprite;
-	//PhysicsBody PhysBody;
 };
 
 class Player : public GameObject {
