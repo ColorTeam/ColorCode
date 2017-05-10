@@ -1,4 +1,0 @@
-﻿  GameObject.cpp
-gpu_code.obj : error LNK2019: unresolved external symbol __imp__glewInit referenced in function "bool __cdecl GLInit(int,char * *,int,int,char const *)" (?GLInit@@YA_NHPAPADHHPBD@Z)
-gpu_code.obj : error LNK2019: unresolved external symbol __imp__glewGetErrorString referenced in function "bool __cdecl GLInit(int,char * *,int,int,char const *)" (?GLInit@@YA_NHPAPADHHPBD@Z)
-C:\Users\hw\Documents\code\ColorCode\ColorCode\Debug\ColorCode.exe : fatal error LNK1120: 2 unresolved externals
