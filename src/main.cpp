@@ -22,10 +22,17 @@ using namespace std;
 const int image_channels = 4;
 
 vector<GameObject> GO;
+Player player;
 BigTex bigtex;
 
 void ReadJson() {
 	
+}
+
+bool OnKeyboard(int Key) {
+	bool ret = player.OnKeyboard(Key);
+	player.print_Pos();
+	return ret;
 }
 
 //game loop and render loop
@@ -42,8 +49,9 @@ int main() {
 	// use package
 #else
 	big = (u32*)stbi_load("res/bigtex.png", &xx, &yy, &nn, image_channels);
+	player = Player(50,50);
+	//GO.push_back(player);
 #endif
 	bigtex = BigTex(xx, yy, big);
-	if (bigtex.data) printf("you!!!");
 	gl_work_init(500, 500, bigtex);
 }

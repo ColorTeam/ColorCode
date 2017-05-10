@@ -110,6 +110,11 @@ static void CreateTexture(BigTex bigtex) {
 	glBindTexture(GL_TEXTURE_2D, 0u);
 }
 
+static void SpecialKeyboardCB(int Key, int x, int y)
+{
+	OnKeyboard(Key);
+}
+
 static void game_main_loop() {
 	glutMainLoopEvent();
 	frame_id++;
@@ -127,6 +132,7 @@ int gl_work_init(int width0, int height0, BigTex bigtex) {
 	if (!res) return 0;
 	glutReshapeWindow(width0, height0);
 	glutDisplayFunc(RenderScenceCB);
+	glutSpecialFunc(SpecialKeyboardCB);
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
 	CreateVertexBuffer();
