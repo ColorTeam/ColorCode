@@ -5,11 +5,18 @@
 #include "PhysicsBody.h"
 
 PhysicsBody::PhysicsBody() {
-	outBox = CreateOutBox(bboxList);
+	//Init();
 }
 
 PhysicsBody::PhysicsBody(float posX, float posY, float width, float height, int type = 0, float rotate = 0.0) {
+	//Init();
+}
 
+void PhysicsBody::Init(std::vector<BBoxData> bboxData) {
+	for (unsigned int i; i < bboxData.size(); i++) {
+		bboxList.push_back(BoundingBox(bboxData[0].fPosX, bboxData[0].fPosY, bboxData[0].fWidth, bboxData[0].fHeight, bboxData[0].iType, bboxData[0].fRotate));
+	}
+	outBox = CreateOutBox(bboxList);
 }
 
 //for Rotate

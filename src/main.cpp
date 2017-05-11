@@ -54,4 +54,6 @@ int main() {
 #endif
 	bigtex = BigTex(xx, yy, big);
 	gl_work_init(500, 500, bigtex);
+
+
 }

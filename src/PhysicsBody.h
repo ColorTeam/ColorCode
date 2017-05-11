@@ -4,6 +4,26 @@
 #include <vector>
 #include "utils.h"
 
+//temp structure
+//to be replaced by duktape
+struct BBoxData {
+	int iType;//0:rect 1:circle
+	float fPosX;
+	float fPosY;
+	float fWidth;
+	float fHeight;
+	float fRotate;
+
+	BBoxData(float pos_x, float pos_y, float width, float height, float rotate = 0.0, int type = 0) {
+		fPosX = pos_x;
+		fPosY = pos_y;
+		fWidth = width;
+		fHeight = height;
+		fRotate = rotate;
+		iType = type;
+	}
+};
+
 class BoundingBox {
 public:
 	int iType;//0:rect 1:circle
@@ -22,13 +42,13 @@ public:
 		fRotate = 0;
 	}
 
-	BoundingBox(float posX, float posY, float width, float height, int type = 0, float rotate = 0.0) {
+	BoundingBox(float posX, float posY, float width, float height, float rotate = 0.0, int type = 0) {
 		Position.x = posX;
 		Position.y = posY;
 		fWidth = width;
 		fHeight = height;
-		iType = type;
 		fRotate = rotate;
+		iType = type;
 	}
 };
 
@@ -36,6 +56,7 @@ class PhysicsBody {
 public:
 	PhysicsBody();
 	PhysicsBody(float posX, float posY, float width, float height, int type, float rotate);
+	void Init(std::vector<BBoxData> bboxData);
 	BoundingBox CreateAABB(BoundingBox bbox);
 	BoundingBox CreateOutBox(std::vector<BoundingBox> bboxs);
 

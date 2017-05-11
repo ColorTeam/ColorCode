@@ -13,11 +13,17 @@ public:
 	GameObject(float x, float y) {
 		Position.x = x;
 		Position.y = y;
+		InitPhysicsBody();
 	}
 	void print_Pos() {
 		printf("x: %.1f; y: %.1f;\n", Position.x, Position.y);
 	}
+
+	void InitPhysicsBody();
+
 	virtual bool OnKeyboard(int Key)=0;
+
+	
 
 	PhysicsBody PhysBody;
 protected:
