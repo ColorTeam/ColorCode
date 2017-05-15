@@ -1,11 +1,12 @@
 #include "gl_helper.h"
 #include "utils.h"
+#include "GameObject.h"
 
 GLuint VBO;
 GLuint EBO;
 GLuint g_tex;
-int m_t = 2;
-int m_v = 6;
+int m_t = 4;
+int m_v = 12;
 GLRTT rtt;
 GLuint m_frameBuffer, m_colorBuffer;
 
@@ -19,13 +20,21 @@ int image_channels = 4;
 void *now_img = 0;
 
 float vertices[20000] = {
-	-1.0, 1.0,
-	1.0, 1.0,
-	-1.0, -1.0,
+	-1.0, 1.0, 0.0,
+	1.0, 1.0, 0.0,
+	-1.0, -1.0, 0.0,
 
-	1.0, 1.0,
-	1.0, -1.0,
-	-1.0, -1.0,
+	1.0, 1.0, 0.0,
+	1.0, -1.0, 0.0,
+	-1.0, -1.0, 0.0,
+
+	0.0, 1.0, 0.1,
+	1.0, 1.0, 0.1,
+	0.0, 0.0, 0.1,
+
+	1.0, 1.0, 0.1,
+	1.0, 0.0, 0.1,
+	0.0, 0.0, 0.1,
 
 	0.0, 1.0,
 	1.0, 1.0,
@@ -34,11 +43,22 @@ float vertices[20000] = {
 	1.0, 1.0,
 	1.0, 0.0,
 	0.0, 0.0,
+
+	0.0, 1.0,
+	1.0, 1.0,
+	0.0, 0.0,
+
+	1.0, 1.0,
+	1.0, 0.0,
+	0.0, 0.0,
+
 };
 
 unsigned int ebo[30000] = {
 	0, 1, 2,
 	3, 4, 5,
+	6, 7, 8,
+	9, 10, 11,
 };
 
 /**
@@ -53,10 +73,12 @@ void RenderScenceCB() {
 	glEnableVertexAttribArray(0);
 	glEnableVertexAttribArray(1);
 	// 绑定GL_ARRAY_BUFFER缓冲器
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+
+	glBindBuffer(GL_ARRAY_BUFFER, VBO); 
+	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(float)*m_v * 5, vertices);
 	// 告诉管线怎样解析bufer中的数据
-	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, 0);
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (const GLvoid*)(m_v * 2 * sizeof(float)));
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (const GLvoid*)(m_v * 3 * sizeof(float)));
 	
 	// 开始绘制几何图形(绘制一个点)
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
@@ -90,7 +112,7 @@ static void CreateVertexBuffer() {
 	// 绑定GL_ARRAY_BUFFER缓冲器
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	// 绑定顶点数据
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float)*m_v * 4, vertices, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float)*m_v * 5, vertices, GL_DYNAMIC_DRAW);
 }
 
 static void CreateIndexBuffer() {
@@ -114,6 +136,30 @@ static void SpecialKeyboardCB(int Key, int x, int y)
 }
 
 void glOnRender() {
+	//-1.0, 1.0,
+	//	1.0, 1.0,
+	//	-1.0, -1.0,
+
+	//	1.0, 1.0,
+	//	1.0, -1.0,
+	//	-1.0, -1.0,
+	Vec2f tmp = player.getGLPosition();
+	printf("tmp: %.2f %.2f\n", tmp.x, tmp.y);
+	vertices[18] = tmp.x;
+	vertices[19] = tmp.y + 0.1;
+	vertices[21] = tmp.x + 0.1;
+	vertices[22] = tmp.y + 0.1;
+	vertices[24] = tmp.x;
+	vertices[25] = tmp.y;
+
+	vertices[27] = tmp.x + 0.1;
+	vertices[28] = tmp.y + 0.1;
+	vertices[30] = tmp.x + 0.1;
+	vertices[31] = tmp.y;
+	vertices[33] = tmp.x;
+	vertices[34] = tmp.y;
+
+
 	glutMainLoopEvent();
 	printf("haha\n");
 	glutPostRedisplay();

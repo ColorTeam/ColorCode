@@ -158,7 +158,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="KeyList.cpp" />
     <ClCompile Include="src\Collision.cpp" />
     <ClCompile Include="src\GameObject.cpp" />
     <ClCompile Include="src\gpu_code.cpp" />

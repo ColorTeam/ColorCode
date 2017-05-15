@@ -15,6 +15,6 @@ void Sprite::AddFrame(float v[8], float vt[8]) {
 	vFrames.push_back(nowFrame);
 }
 
-void Sprite::Draw(Point2D wPos) {
+void Sprite::Draw(Vec2f wPos) {
 	
 }

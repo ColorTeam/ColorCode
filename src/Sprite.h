@@ -15,7 +15,7 @@ public:
 	Sprite();
 	//void Read(const char* filename);
 	void AddFrame(float v[8], float vt[8]);
-	void Draw(Point2D wPos);
+	void Draw(Vec2f wPos);
 private:
 	int iFrameNum;
 	int iFrameID;

@@ -5,6 +5,7 @@
 #include "Sprite.h"
 #include "PhysicsBody.h"
 #include <vector>
+#include <freeglut.h>
 
 class GameObject {
 public:
@@ -22,9 +23,8 @@ public:
 
 	virtual bool OnKeyboard(int Key)=0;
 
-	
-
 	PhysicsBody PhysBody;
+
 protected:
 	Vec2f Position;
 	Sprite MySprite;
@@ -38,26 +38,52 @@ public:
 		Position.y = y;
 	}
 
-	bool MoveUp() {
-		Position.y--;
-		return true;
+	Vec2f getGLPosition() {
+		Vec2f tmp(Position.x / 1024.f*2.f - 1.f, Position.y / 1024.f*2.f - 1.f);
+		return tmp;
 	}
 
-	bool MoveDown() {
-		Position.y++;
-		return true;
-	}
+	bool OnKeyboard(int Key) {
+		bool Ret = true;
 
-	bool MoveLeft() {
-		Position.x--;
-		return true;
-	}
+		switch (Key) {
 
-	bool MoveRight() {
-		Position.x++;
-		return true;
+		case GLUT_KEY_UP:
+		{
+			Position.y+=10;
+		}
+		break;
+
+		case GLUT_KEY_DOWN:
+		{
+			Position.y-= 10;
+		}
+		break;
+
+		case GLUT_KEY_LEFT:
+		{
+			Position.x-= 10;
+		}
+		break;
+
+		case GLUT_KEY_RIGHT:
+		{
+			Position.x+= 10;
+		}
+		break;
+
+		default:
+		{
+			Ret = false;
+		}
+		break;
+
+		}
+		return Ret;
 	}
 };
+
+extern Player player;
 /*
 class GameObject_Player : public GameObject {
 public:

@@ -47,7 +47,7 @@ void game_main_loop() {
 	///step 5. render
 	glOnRender();
 	///step 6. control fps
-	Sleep(500);
+	Sleep(50);
 }
 
 int main() {
