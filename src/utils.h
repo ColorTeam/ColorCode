@@ -10,6 +10,7 @@ typedef unsigned char u8;
 typedef unsigned int  u32;
 
 bool OnKeyboard(int Key);
+void glOnRender();
 
 class BigTex {
 public:

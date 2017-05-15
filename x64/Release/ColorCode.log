@@ -1,26 +1,26 @@
-﻿Build started 5/11/2017 1:01:26 PM.
-     1>Project "F:\Graduate 4th semester\Colorcode\colorcode\ColorCode.vcxproj" on node 2 (Rebuild target(s)).
+﻿Build started 5/15/2017 10:09:01 AM.
+     1>Project "F:\Graduate 4th semester\Colorcode\ColorCode\ColorCode.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         D:\Program Files\Microsoft Visual Studio 14.0\VC\bin\x86_amd64\CL.exe /c /Zi /nologo /W3 /WX- /sdl /O2 /Oi /GL /D NDEBUG /D _CONSOLE /D _CRT_SECURE_NO_WARNINGS /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"x64\Release\\" /Fd"x64\Release\vc140.pdb" /Gd /TP /errorReport:prompt src\Collision.cpp src\GameObject.cpp src\gpu_code.cpp src\main.cpp src\PhysicsBody.cpp src\Sprite.cpp
-         Collision.cpp
-         GameObject.cpp
-         gpu_code.cpp
+         D:\Program Files\Microsoft Visual Studio 14.0\VC\bin\x86_amd64\CL.exe /c /Zi /nologo /W3 /WX- /sdl /O2 /Oi /GL /D NDEBUG /D _CONSOLE /D _CRT_SECURE_NO_WARNINGS /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"x64\Release\\" /Fd"x64\Release\vc140.pdb" /Gd /TP /errorReport:prompt KeyList.cpp src\main.cpp
+         KeyList.cpp
+     1>f:\graduate 4th semester\colorcode\colorcode\KeyList.h(12): warning C4390: ';': empty controlled statement found; is this the intent?
          main.cpp
-         PhysicsBody.cpp
-         Sprite.cpp
        Link:
-         D:\Program Files\Microsoft Visual Studio 14.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"F:\Graduate 4th semester\Colorcode\colorcode\x64\Release\ColorCode.exe" /INCREMENTAL:NO /NOLOGO freeglut.lib glew32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /Debug /PDB:"F:\Graduate 4th semester\Colorcode\colorcode\x64\Release\ColorCode.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG:incremental /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"F:\Graduate 4th semester\Colorcode\colorcode\x64\Release\ColorCode.lib" /MACHINE:X64 x64\Release\Collision.obj
+         D:\Program Files\Microsoft Visual Studio 14.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"F:\Graduate 4th semester\Colorcode\colorcode\x64\Release\ColorCode.exe" /INCREMENTAL:NO /NOLOGO freeglut.lib glew32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /Debug /PDB:"F:\Graduate 4th semester\Colorcode\colorcode\x64\Release\ColorCode.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG:incremental /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"F:\Graduate 4th semester\Colorcode\colorcode\x64\Release\ColorCode.lib" /MACHINE:X64 x64\Release\KeyList.obj
+         x64\Release\Collision.obj
          x64\Release\GameObject.obj
          x64\Release\gpu_code.obj
          x64\Release\main.obj
          x64\Release\PhysicsBody.obj
          x64\Release\Sprite.obj
          Generating code
-         All 316 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+         2 of 317 functions ( 0.6%) were compiled, the rest were copied from previous compilation.
+           0 functions were new in current compilation
+           0 functions had inline decision re-evaluated but remain unchanged
          Finished generating code
          ColorCode.vcxproj -> F:\Graduate 4th semester\Colorcode\colorcode\x64\Release\ColorCode.exe
-     1>Done Building Project "F:\Graduate 4th semester\Colorcode\colorcode\ColorCode.vcxproj" (Rebuild target(s)).
+     1>Done Building Project "F:\Graduate 4th semester\Colorcode\ColorCode\ColorCode.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:04.83
+Time Elapsed 00:00:01.64

@@ -41,8 +41,6 @@ unsigned int ebo[30000] = {
 	3, 4, 5,
 };
 
-int frame_id = 0;
-
 /**
 * 渲染回调函数
 */
@@ -115,11 +113,9 @@ static void SpecialKeyboardCB(int Key, int x, int y)
 	OnKeyboard(Key);
 }
 
-static void game_main_loop() {
+void glOnRender() {
 	glutMainLoopEvent();
-	frame_id++;
 	printf("haha\n");
-	Sleep(1000);
 	glutPostRedisplay();
 }
 
@@ -144,9 +140,6 @@ int gl_work_init(int width0, int height0, BigTex bigtex) {
 	g_program.UseShaders_file("shader/test.vert", "shader/test.frag");
 
 	// 通知开始GLUT的内部循环
-	while (1) {
-		game_main_loop();
-	}
 	// 只运行一次，Render to texture
 	//RenderScenceCB();
 	return 0;

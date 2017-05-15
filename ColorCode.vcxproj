@@ -158,6 +158,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="KeyList.cpp" />
     <ClCompile Include="src\Collision.cpp" />
     <ClCompile Include="src\GameObject.cpp" />
     <ClCompile Include="src\gpu_code.cpp" />
@@ -166,6 +167,7 @@
     <ClCompile Include="src\Sprite.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="KeyList.h" />
     <ClInclude Include="include\gl_helper.h" />
     <ClInclude Include="src\Collision.h" />
     <ClInclude Include="src\GameObject.h" />

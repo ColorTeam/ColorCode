@@ -25,6 +25,8 @@ vector<GameObject> GO;
 Player player;
 BigTex bigtex;
 
+static bool EndGameFlag = false;
+
 void ReadJson() {
 	
 }
@@ -37,7 +39,15 @@ bool OnKeyboard(int Key) {
 
 //game loop and render loop
 void game_main_loop() {
+	///step 1. listen user key
 
+	///step 2. update position
+	///step 3. physical (for a,b in GO: check colli(a,b) -> mark)
+	///step 4. update GO
+	///step 5. render
+	glOnRender();
+	///step 6. control fps
+	Sleep(500);
 }
 
 int main() {
@@ -55,5 +65,8 @@ int main() {
 	bigtex = BigTex(xx, yy, big);
 	gl_work_init(500, 500, bigtex);
 
-
+	//game loop
+	while (!EndGameFlag) {
+		game_main_loop();
+	}
 }

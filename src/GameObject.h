@@ -4,7 +4,6 @@
 #include "utils.h"
 #include "Sprite.h"
 #include "PhysicsBody.h"
-#include <freeglut.h>
 #include <vector>
 
 class GameObject {
@@ -39,41 +38,24 @@ public:
 		Position.y = y;
 	}
 
-	bool OnKeyboard(int Key) {
-		bool Ret = false;
+	bool MoveUp() {
+		Position.y--;
+		return true;
+	}
 
-		switch (Key) {
+	bool MoveDown() {
+		Position.y++;
+		return true;
+	}
 
-		case GLUT_KEY_UP:
-		{
-			Position.y++;
-			Ret = true;
-		}
-		break;
+	bool MoveLeft() {
+		Position.x--;
+		return true;
+	}
 
-		case GLUT_KEY_DOWN:
-		{
-			Position.y--;
-			Ret = true;
-		}
-		break;
-
-		case GLUT_KEY_LEFT:
-		{
-			Position.x--;
-			Ret = true;
-		}
-		break;
-
-		case GLUT_KEY_RIGHT:
-		{
-			Position.x++;
-			Ret = true;
-		}
-		break;
-		}
-
-		return Ret;
+	bool MoveRight() {
+		Position.x++;
+		return true;
 	}
 };
 /*
