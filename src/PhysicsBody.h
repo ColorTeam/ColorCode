@@ -28,24 +28,23 @@ class BoundingBox {
 public:
 	int iType;//0:rect 1:circle
 	Vec2f Position;
-	float fWidth;
-	float fHeight;
+	Vec2f Size;
 	float fRotate;
 
 	BoundingBox() {
 		iType = 0;
 		Position.x = 0;
 		Position.y = 0;
-		fWidth = 5;
-		fHeight = 5;
+		Size.x = 5;
+		Size.y = 5;
 		fRotate = 0;
 	}
 
 	BoundingBox(float posX, float posY, float width, float height, float rotate = 0.0, int type = 0) {
 		Position.x = posX;
 		Position.y = posY;
-		fWidth = width;
-		fHeight = height;
+		Size.x = width;
+		Size.y = height;
 		fRotate = rotate;
 		iType = type;
 	}

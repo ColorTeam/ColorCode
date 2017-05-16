@@ -42,13 +42,13 @@ BoundingBox PhysicsBody::CreateOutBox(std::vector<BoundingBox> bboxs) {
 	{
 		if (bboxs[i].Position.x < bigBox.Position.x)
 			bigBox.Position.x = bboxs[i].Position.x;
-		if (bboxs[i].Position.x + bboxs[i].fWidth > bigBox.Position.x + bigBox.fWidth)
-			bigBox.fWidth = bboxs[i].Position.x + bboxs[i].fWidth - bigBox.Position.x;
+		if (bboxs[i].Position.x + bboxs[i].Size.x > bigBox.Position.x + bigBox.Size.x)
+			bigBox.Size.x = bboxs[i].Position.x + bboxs[i].Size.x - bigBox.Position.x;
 
 		if (bboxs[i].Position.y < bigBox.Position.y)
 			bigBox.Position.y = bboxs[i].Position.y;
-		if (bboxs[i].Position.y + bboxs[i].fHeight > bigBox.Position.y + bigBox.fHeight)
-			bigBox.fHeight = bboxs[i].Position.y + bboxs[i].fHeight - bigBox.Position.y;
+		if (bboxs[i].Position.y + bboxs[i].Size.y > bigBox.Position.y + bigBox.Size.y)
+			bigBox.Size.y = bboxs[i].Position.y + bboxs[i].Size.y - bigBox.Position.y;
 	}
 	return bigBox;
 }

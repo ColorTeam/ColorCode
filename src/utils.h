@@ -47,6 +47,10 @@ public:
 		y = a.y;
 		return *this;
 	}
+
+	Vec2f operator+(const Vec2f& a) {
+		return Vec2f(x+a.x,y+a.y);
+	}
 };
 
 struct Vec2i {

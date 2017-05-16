@@ -7,7 +7,7 @@ Collision::Collision() {
 
 }
 
-int Collision::BBoxCollide(BoundingBox& bboxA, BoundingBox& bboxB, Vec2f PosA, Vec2f PosB) {
+int Collision::BBoxCollide(BoundingBox& bboxA, BoundingBox& bboxB, Vec2f globalPosA, Vec2f globalPosB, Vec2f globalPrePosA, Vec2f globalPrePosB) {
 	int isCollision = 0;//0:not collide; 1: up; 2: down; 3: left; 4: right
 
 	switch (bboxA.iType)
@@ -17,25 +17,25 @@ int Collision::BBoxCollide(BoundingBox& bboxA, BoundingBox& bboxB, Vec2f PosA, V
 		{
 		case 0://rect
 		{
-			float disWidth = std::abs((bboxA.Position.x + bboxA.fWidth / 2) - (bboxB.Position.x + bboxB.fWidth / 2));
-			float disHeight = std::abs((bboxA.Position.y + bboxA.fHeight / 2) - (bboxB.Position.y + bboxB.fHeight / 2));
-			float sumHalfWidth = (bboxA.fWidth + bboxB.fWidth) / 2;
-			float sumHalfHeight = (bboxA.fHeight + bboxB.fHeight) / 2;
+			float disWidth = std::abs((globalPosA.x + bboxA.Size.x / 2) - (globalPosB.x + bboxB.Size.x / 2));
+			float disHeight = std::abs((globalPosA.y + bboxA.Size.y / 2) - (globalPosB.y + bboxB.Size.y / 2));
+			float sumHalfWidth = (bboxA.Size.x + bboxB.Size.x) / 2;
+			float sumHalfHeight = (bboxA.Size.y + bboxB.Size.y) / 2;
 
 			if (disWidth<sumHalfWidth && disHeight<sumHalfHeight) {
-				if (bboxA.prePosition.y > bboxB.prePosition.y + bboxB.fHeight && bboxA.Position.y <= bboxB.Position.y + bboxB.fHeight) {
+				if (globalPrePosA.y > globalPrePosB.y + bboxB.Size.y && globalPosA.y <= globalPosB.y + bboxB.Size.y) {
 					isCollision = 1; //up
 					printf("UP!\n");
 				}
-				else if (bboxA.prePosition.y + bboxA.fHeight < bboxB.prePosition.y && bboxA.Position.y + bboxA.fHeight >= bboxB.Position.y) {
+				else if (globalPrePosA.y + bboxA.Size.y < globalPrePosB.y && globalPosA.y + bboxA.Size.y >= globalPosB.y) {
 					isCollision = 2; //down
 					printf("DOWN!\n");
 				}
-				else if (bboxA.prePosition.x + bboxA.fWidth < bboxB.prePosition.x && bboxA.Position.x + bboxA.fWidth >= bboxB.Position.x) {
+				else if (globalPrePosA.x + bboxA.Size.x < globalPrePosB.x && globalPosA.x + bboxA.Size.x >= globalPosB.x) {
 					isCollision = 3; //left
 					printf("LEFT!\n");
 				}
-				else if (bboxA.prePosition.x > bboxB.prePosition.x + bboxB.fWidth && bboxA.Position.x <= bboxB.Position.x + bboxB.fWidth) {
+				else if (globalPrePosA.x > globalPrePosB.x + bboxB.Size.x && globalPosA.x <= globalPosB.x + bboxB.Size.x) {
 					isCollision = 4; //right
 					printf("RIGHT!\n");
 				}
@@ -71,14 +71,18 @@ int Collision::BBoxCollide(BoundingBox& bboxA, BoundingBox& bboxB, Vec2f PosA, V
 }
 
 int Collision::PBodyCollide(PhysicsBody bodyA, PhysicsBody bodyB) {
-	if (!BBoxCollide(bodyA.outBox, bodyB.outBox, Vec2f PosA, Vec2f PosB))
+	if (!BBoxCollide(bodyA.outBox, bodyB.outBox, 
+		bodyA.Position+bodyA.outBox.Position, bodyB.Position+bodyB.outBox.Position, 
+		bodyA.PrePosition+bodyA.outBox.Position, bodyB.PrePosition+bodyB.outBox.Position))
 		return 0;
 
 	int isCollision = 0;//0:not collide; 1: up; 2: down; 3: left; 4: right
 
 	for (unsigned int i = 0; i < bodyA.bboxList.size(); i++) {
 		for (unsigned int j = 0; j < bodyB.bboxList.size(); j++) {
-			isCollision = BBoxCollide(bodyA.bboxList[i], bodyB.bboxList[j]);
+			isCollision = BBoxCollide(bodyA.bboxList[i], bodyB.bboxList[j],
+				bodyA.Position + bodyA.bboxList[i].Position, bodyB.Position + bodyB.bboxList[j].Position,
+				bodyA.PrePosition + bodyA.bboxList[i].Position, bodyB.PrePosition + bodyB.bboxList[j].Position);
 			if (isCollision)
 				return isCollision;
 		}
@@ -94,13 +98,13 @@ BoundingBox Collision::CreateAABB(std::vector<BoundingBox> bboxs) {
 	{
 		if (bboxs[i].Position.x < bigBox.Position.x)
 			bigBox.Position.x = bboxs[i].Position.x;
-		if (bboxs[i].Position.x + bboxs[i].fWidth > bigBox.Position.x + bigBox.fWidth)
-			bigBox.fWidth = bboxs[i].Position.x + bboxs[i].fWidth - bigBox.Position.x;
+		if (bboxs[i].Position.x + bboxs[i].Size.x > bigBox.Position.x + bigBox.Size.x)
+			bigBox.Size.x = bboxs[i].Position.x + bboxs[i].Size.x - bigBox.Position.x;
 
 		if (bboxs[i].Position.y < bigBox.Position.y)
 			bigBox.Position.y = bboxs[i].Position.y;
-		if (bboxs[i].Position.y + bboxs[i].fHeight > bigBox.Position.y + bigBox.fHeight)
-			bigBox.fHeight = bboxs[i].Position.y + bboxs[i].fHeight- bigBox.Position.y;
+		if (bboxs[i].Position.y + bboxs[i].Size.y > bigBox.Position.y + bigBox.Size.y)
+			bigBox.Size.y = bboxs[i].Position.y + bboxs[i].Size.y - bigBox.Position.y;
 	}
 	return bigBox;
 }
