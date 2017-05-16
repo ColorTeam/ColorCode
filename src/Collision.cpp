@@ -7,7 +7,7 @@ Collision::Collision() {
 
 }
 
-int Collision::BBoxCollide(BoundingBox bboxA, BoundingBox bboxB) {
+int Collision::BBoxCollide(BoundingBox& bboxA, BoundingBox& bboxB, Vec2f PosA, Vec2f PosB) {
 	int isCollision = 0;//0:not collide; 1: up; 2: down; 3: left; 4: right
 
 	switch (bboxA.iType)
@@ -23,17 +23,27 @@ int Collision::BBoxCollide(BoundingBox bboxA, BoundingBox bboxB) {
 			float sumHalfHeight = (bboxA.fHeight + bboxB.fHeight) / 2;
 
 			if (disWidth<sumHalfWidth && disHeight<sumHalfHeight) {
-				if (bboxA.prePosition.y + bboxA.fHeight <= bboxB.prePosition.y && bboxA.Position.y + bboxA.fHeight > bboxB.Position.y)
+				if (bboxA.prePosition.y > bboxB.prePosition.y + bboxB.fHeight && bboxA.Position.y <= bboxB.Position.y + bboxB.fHeight) {
 					isCollision = 1; //up
-				else if (bboxA.prePosition.y + bboxA.fHeight <= bboxB.prePosition.y + bboxB.fHeight && bboxA.Position.y + bboxA.fHeight > bboxB.Position.y + bboxB.fHeight)
+					printf("UP!\n");
+				}
+				else if (bboxA.prePosition.y + bboxA.fHeight < bboxB.prePosition.y && bboxA.Position.y + bboxA.fHeight >= bboxB.Position.y) {
 					isCollision = 2; //down
-				else if (bboxA.prePosition.x + bboxA.fWidth <= bboxB.prePosition.x && bboxA.Position.x + bboxA.fWidth > bboxB.Position.x)
+					printf("DOWN!\n");
+				}
+				else if (bboxA.prePosition.x + bboxA.fWidth < bboxB.prePosition.x && bboxA.Position.x + bboxA.fWidth >= bboxB.Position.x) {
 					isCollision = 3; //left
-				else if (bboxA.prePosition.x + bboxA.fWidth <= bboxB.prePosition.x + bboxB.fWidth && bboxA.Position.x + bboxA.fWidth > bboxB.Position.x + bboxB.fWidth)
+					printf("LEFT!\n");
+				}
+				else if (bboxA.prePosition.x > bboxB.prePosition.x + bboxB.fWidth && bboxA.Position.x <= bboxB.Position.x + bboxB.fWidth) {
 					isCollision = 4; //right
+					printf("RIGHT!\n");
+				}
 				else {
-					if (true) // (cls == "enemy"||cls == "thorn")
+					if (true) { // (cls == "enemy"||cls == "thorn"), losing life + transparent
 						isCollision = 5;
+						printf("COLLIDE FROM INSIDE!\n");
+					}
 					else
 						std::cerr << "Error!";
 				}
@@ -61,7 +71,7 @@ int Collision::BBoxCollide(BoundingBox bboxA, BoundingBox bboxB) {
 }
 
 int Collision::PBodyCollide(PhysicsBody bodyA, PhysicsBody bodyB) {
-	if (!BBoxCollide(bodyA.outBox, bodyB.outBox))
+	if (!BBoxCollide(bodyA.outBox, bodyB.outBox, Vec2f PosA, Vec2f PosB))
 		return 0;
 
 	int isCollision = 0;//0:not collide; 1: up; 2: down; 3: left; 4: right

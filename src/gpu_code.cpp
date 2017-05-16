@@ -5,8 +5,8 @@
 GLuint VBO;
 GLuint EBO;
 GLuint g_tex;
-int m_t = 4;
-int m_v = 12;
+int m_t = 6;
+int m_v = 18;
 GLRTT rtt;
 GLuint m_frameBuffer, m_colorBuffer;
 
@@ -36,6 +36,14 @@ float vertices[20000] = {
 	1.0, 0.0, 0.1,
 	0.0, 0.0, 0.1,
 
+	0.0, 1.0, 0.2,
+	1.0, 1.0, 0.2,
+	0.0, 0.0, 0.2,
+
+	1.0, 1.0, 0.2,
+	1.0, 0.0, 0.2,
+	0.0, 0.0, 0.2,
+
 	0.0, 1.0,
 	1.0, 1.0,
 	0.0, 0.0,
@@ -52,6 +60,13 @@ float vertices[20000] = {
 	1.0, 0.0,
 	0.0, 0.0,
 
+	0.0, 1.0,
+	1.0, 1.0,
+	0.0, 0.0,
+
+	1.0, 1.0,
+	1.0, 0.0,
+	0.0, 0.0,
 };
 
 unsigned int ebo[30000] = {
@@ -59,6 +74,8 @@ unsigned int ebo[30000] = {
 	3, 4, 5,
 	6, 7, 8,
 	9, 10, 11,
+	12, 13, 14,
+	15, 16, 17,
 };
 
 /**
@@ -143,25 +160,41 @@ void glOnRender() {
 	//	1.0, 1.0,
 	//	1.0, -1.0,
 	//	-1.0, -1.0,
-	Vec2f tmp = player.getGLPosition();
-	printf("tmp: %.2f %.2f\n", tmp.x, tmp.y);
-	vertices[18] = tmp.x;
-	vertices[19] = tmp.y + 0.1;
-	vertices[21] = tmp.x + 0.1;
-	vertices[22] = tmp.y + 0.1;
-	vertices[24] = tmp.x;
-	vertices[25] = tmp.y;
+	Vec2f pos = player.getGLPosition();
+	Vec2f size = player.getGLSize();
 
-	vertices[27] = tmp.x + 0.1;
-	vertices[28] = tmp.y + 0.1;
-	vertices[30] = tmp.x + 0.1;
-	vertices[31] = tmp.y;
-	vertices[33] = tmp.x;
-	vertices[34] = tmp.y;
+	//printf("tmp: %.2f %.2f\n", tmp.x, tmp.y);
+	vertices[18] = pos.x;
+	vertices[19] = pos.y + size.y;
+	vertices[21] = pos.x + size.x;
+	vertices[22] = pos.y + size.y;
+	vertices[24] = pos.x;
+	vertices[25] = pos.y;
 
+	vertices[27] = pos.x + size.x;
+	vertices[28] = pos.y + size.y;
+	vertices[30] = pos.x + size.x;
+	vertices[31] = pos.y;
+	vertices[33] = pos.x;
+	vertices[34] = pos.y;
+
+	Vec2f pos2 = enemy.getGLPosition();
+	Vec2f size2 = enemy.getGLSize();
+	vertices[36] = pos2.x;
+	vertices[37] = pos2.y + size2.y;
+	vertices[39] = pos2.x + size2.x;
+	vertices[40] = pos2.y + size2.y;
+	vertices[42] = pos2.x;
+	vertices[43] = pos2.y;
+
+	vertices[45] = pos2.x + size2.x;
+	vertices[46] = pos2.y + size2.y;
+	vertices[48] = pos2.x + size2.x;
+	vertices[49] = pos2.y;
+	vertices[51] = pos2.x;
+	vertices[52] = pos2.y;
 
 	glutMainLoopEvent();
-	printf("haha\n");
 	glutPostRedisplay();
 }
 

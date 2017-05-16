@@ -10,38 +10,38 @@
 class GameObject {
 public:
 	GameObject() {}
-	GameObject(float x, float y) {
+	GameObject(float x, float y, float w, float h) {
 		Position.x = x;
 		Position.y = y;
-		InitPhysicsBody();
+		Size.x = w;
+		Size.y = h;
+		InitPhysicsBody(x,y,w,h);
 	}
 	void print_Pos() {
 		printf("x: %.1f; y: %.1f;\n", Position.x, Position.y);
 	}
+	inline Vec2f getGLPosition() {
+		return Vec2f(Position.x/1024.f * 2.f - 1.f, Position.y/1024.f * 2.f - 1.f);
+	}
+	inline Vec2f getGLSize() {
+		return Vec2f(Size.x/1024.f * 2.f, Size.y/1024.f * 2.f);
+	}
 
-	void InitPhysicsBody();
-
-	virtual bool OnKeyboard(int Key)=0;
+	void InitPhysicsBody(float x, float y, float w, float h);
 
 	PhysicsBody PhysBody;
 
 protected:
 	Vec2f Position;
+	Vec2f Size;
 	Sprite MySprite;
 };
 
 class Player : public GameObject {
 public:
 	Player() {}
-	Player(float x, float y) {
-		Position.x = x;
-		Position.y = y;
-	}
-
-	Vec2f getGLPosition() {
-		Vec2f tmp(Position.x / 1024.f*2.f - 1.f, Position.y / 1024.f*2.f - 1.f);
-		return tmp;
-	}
+	Player(float x, float y, float w, float h) : GameObject(x, y, w, h) {}
+	
 
 	bool OnKeyboard(int Key) {
 		bool Ret = true;
@@ -84,6 +84,14 @@ public:
 };
 
 extern Player player;
+
+class Enemy : public GameObject {
+public:
+	Enemy() {}
+	Enemy(float x, float y, float w, float h) : GameObject(x, y, w, h) {}
+};
+
+extern Enemy enemy;
 /*
 class GameObject_Player : public GameObject {
 public:

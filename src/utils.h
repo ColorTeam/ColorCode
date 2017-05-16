@@ -30,7 +30,8 @@ public:
 
 int gl_work_init(int width0, int height0, BigTex bigtex);
 
-struct Vec2f {
+class Vec2f {
+public:
 	float x;
 	float y;
 	Vec2f() {
@@ -40,6 +41,11 @@ struct Vec2f {
 	Vec2f(float a, float b) {
 		x = a;
 		y = b;
+	}
+	Vec2f& operator=(const Vec2f& a) {
+		x = a.x;
+		y = a.y;
+		return *this;
 	}
 };
 

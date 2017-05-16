@@ -28,7 +28,6 @@ class BoundingBox {
 public:
 	int iType;//0:rect 1:circle
 	Vec2f Position;
-	Vec2f prePosition;
 	float fWidth;
 	float fHeight;
 	float fRotate;
@@ -59,12 +58,15 @@ public:
 	void Init(std::vector<BBoxData> bboxData);
 	BoundingBox CreateAABB(BoundingBox bbox);
 	BoundingBox CreateOutBox(std::vector<BoundingBox> bboxs);
+	void UpdatePos(Vec2f Pos);
 
 	std::vector<BoundingBox> bboxList; //small bounding box list
 	BoundingBox outBox; //the outside big bounding box of all small bounding box
+	void add(Vec2f Position, Vec2f Size);
 
-private:
 
+	Vec2f PrePosition;
+	Vec2f Position;
 };
 
 #endif //PHYSICS_BODY_H_INCLUDE

@@ -5,6 +5,7 @@
 
 //inner head files
 #include "GameObject.h"
+#include "Collision.h"
 #include "utils.h"
 
 //stb_image
@@ -23,6 +24,9 @@ const int image_channels = 4;
 
 vector<GameObject> GO;
 Player player;
+Enemy enemy;
+
+Collision colli;
 BigTex bigtex;
 
 static bool EndGameFlag = false;
@@ -42,7 +46,9 @@ void game_main_loop() {
 	///step 1. listen user key
 
 	///step 2. update position
+	
 	///step 3. physical (for a,b in GO: check colli(a,b) -> mark)
+	colli.PBodyCollide(player.PhysBody, enemy.PhysBody);
 	///step 4. update GO
 	///step 5. render
 	glOnRender();
@@ -59,7 +65,8 @@ int main() {
 	// use package
 #else
 	big = (u32*)stbi_load("res/bigtex.png", &xx, &yy, &nn, image_channels);
-	player = Player(50,50);
+	player = Player(50,50,50,50);
+	enemy = Enemy(120, 120, 100, 100);
 	//GO.push_back(player);
 #endif
 	bigtex = BigTex(xx, yy, big);

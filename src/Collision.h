@@ -7,7 +7,7 @@
 class Collision {
 public:
 	Collision();
-	int BBoxCollide(BoundingBox bboxA, BoundingBox bboxB);
+	int BBoxCollide(BoundingBox& bboxA, BoundingBox& bboxB, Vec2f PosA, Vec2f PosB);
 	int PBodyCollide(PhysicsBody bodyA, PhysicsBody bodyB);
 	BoundingBox CreateAABB(std::vector<BoundingBox> bBoxs);
 
