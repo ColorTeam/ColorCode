@@ -27,22 +27,22 @@ struct BBoxData {
 class BoundingBox {
 public:
 	int iType;//0:rect 1:circle
-	Vec2f Position;
+	Vec2f localPosition;
 	Vec2f Size;
 	float fRotate;
 
 	BoundingBox() {
 		iType = 0;
-		Position.x = 0;
-		Position.y = 0;
+		localPosition.x = 0;
+		localPosition.y = 0;
 		Size.x = 5;
 		Size.y = 5;
 		fRotate = 0;
 	}
 
 	BoundingBox(float posX, float posY, float width, float height, float rotate = 0.0, int type = 0) {
-		Position.x = posX;
-		Position.y = posY;
+		localPosition.x = posX;
+		localPosition.y = posY;
 		Size.x = width;
 		Size.y = height;
 		fRotate = rotate;
@@ -53,7 +53,7 @@ public:
 class PhysicsBody {
 public:
 	PhysicsBody();
-	PhysicsBody(float posX, float posY, float width, float height, int type, float rotate);
+	PhysicsBody(Vec2f Pos);
 	void Init(std::vector<BBoxData> bboxData);
 	BoundingBox CreateAABB(BoundingBox bbox);
 	BoundingBox CreateOutBox(std::vector<BoundingBox> bboxs);

@@ -15,7 +15,6 @@
 #include <stb_image_write.h>
 
 //inner define
-#define SHOW_LOG     1
 #define USE_PACKAGE  0
 
 using namespace std;
@@ -37,7 +36,9 @@ void ReadJson() {
 
 bool OnKeyboard(int Key) {
 	bool ret = player.OnKeyboard(Key);
+#if _DEBUG
 	player.print_Pos();
+#endif
 	return ret;
 }
 

@@ -15,7 +15,8 @@ public:
 		Position.y = y;
 		Size.x = w;
 		Size.y = h;
-		InitPhysicsBody(x,y,w,h);
+		PhysBody = PhysicsBody(Position);
+		InitPhysicsBody(0.f, 0.f, w, h);
 	}
 	void print_Pos() {
 		printf("x: %.1f; y: %.1f;\n", Position.x, Position.y);
@@ -79,6 +80,8 @@ public:
 		break;
 
 		}
+
+		PhysBody.UpdatePos(Position);
 		return Ret;
 	}
 };

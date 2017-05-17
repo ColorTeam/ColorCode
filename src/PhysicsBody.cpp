@@ -5,12 +5,18 @@
 #include "PhysicsBody.h"
 
 PhysicsBody::PhysicsBody() {
+	bboxList.clear();
 	//Init();
 }
 
-PhysicsBody::PhysicsBody(float posX, float posY, float width, float height, int type = 0, float rotate = 0.0) {
-	//Position = Pos;
-	//PrePosition = Pos;
+PhysicsBody::PhysicsBody(Vec2f Pos) {
+	Position = Pos;
+	PrePosition = Pos;
+#if _DEBUG
+	printf("In Phy init:\n");
+	printf("%f %f\n", Pos.x, Pos.y);
+#endif
+	bboxList.clear();
 	//Init();
 }
 
@@ -40,15 +46,15 @@ BoundingBox PhysicsBody::CreateOutBox(std::vector<BoundingBox> bboxs) {
 	BoundingBox bigBox(MAXNUM, MAXNUM, 0, 0, 0);
 	for (unsigned int i = 0; i < bboxs.size(); i++)
 	{
-		if (bboxs[i].Position.x < bigBox.Position.x)
-			bigBox.Position.x = bboxs[i].Position.x;
-		if (bboxs[i].Position.x + bboxs[i].Size.x > bigBox.Position.x + bigBox.Size.x)
-			bigBox.Size.x = bboxs[i].Position.x + bboxs[i].Size.x - bigBox.Position.x;
+		if (bboxs[i].localPosition.x < bigBox.localPosition.x)
+			bigBox.localPosition.x = bboxs[i].localPosition.x;
+		if (bboxs[i].localPosition.x + bboxs[i].Size.x > bigBox.localPosition.x + bigBox.Size.x)
+			bigBox.Size.x = bboxs[i].localPosition.x + bboxs[i].Size.x - bigBox.localPosition.x;
 
-		if (bboxs[i].Position.y < bigBox.Position.y)
-			bigBox.Position.y = bboxs[i].Position.y;
-		if (bboxs[i].Position.y + bboxs[i].Size.y > bigBox.Position.y + bigBox.Size.y)
-			bigBox.Size.y = bboxs[i].Position.y + bboxs[i].Size.y - bigBox.Position.y;
+		if (bboxs[i].localPosition.y < bigBox.localPosition.y)
+			bigBox.localPosition.y = bboxs[i].localPosition.y;
+		if (bboxs[i].localPosition.y + bboxs[i].Size.y > bigBox.localPosition.y + bigBox.Size.y)
+			bigBox.Size.y = bboxs[i].localPosition.y + bboxs[i].Size.y - bigBox.localPosition.y;
 	}
 	return bigBox;
 }
@@ -56,4 +62,9 @@ BoundingBox PhysicsBody::CreateOutBox(std::vector<BoundingBox> bboxs) {
 void PhysicsBody::UpdatePos(Vec2f Pos) {
 	PrePosition = Position;
 	Position = Pos;
+#if _DEBUG
+	printf("in Phy update:\n");
+	printf("Pre:%f %f; Pos:%f %f\n", PrePosition.x, PrePosition.y, 
+									 Position.x, Position.y);
+#endif
 }
