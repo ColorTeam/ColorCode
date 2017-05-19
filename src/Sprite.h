@@ -6,13 +6,16 @@
 
 class SpriteFrame {
 public:
-	float afVT[8];
-	float afV[8];
+	int bigtexIndex;
+	float vt[8];
+	float v[8];
 };
 
 class Sprite {
 public:
 	Sprite();
+	Sprite(Json::Value root);
+
 	//void Read(const char* filename);
 	void AddFrame(float v[8], float vt[8]);
 	void Draw(Vec2f wPos);

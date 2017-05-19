@@ -178,8 +178,8 @@ void glOnRender() {
 	vertices[33] = pos.x;
 	vertices[34] = pos.y;
 
-	Vec2f pos2 = enemy.getGLPosition();
-	Vec2f size2 = enemy.getGLSize();
+	Vec2f pos2 = enemy[0].getGLPosition();
+	Vec2f size2 = enemy[0].getGLSize();
 	vertices[36] = pos2.x;
 	vertices[37] = pos2.y + size2.y;
 	vertices[39] = pos2.x + size2.x;

@@ -3,7 +3,6 @@
 /*
 GameObject::GameObject() {
 }
-*/
 
 void GameObject::InitPhysicsBody(float x, float y, float w, float h) {
 	std::vector<BBoxData> bboxData;
@@ -13,3 +12,4 @@ void GameObject::InitPhysicsBody(float x, float y, float w, float h) {
 	//bboxData.push_back(BBoxData(20.0, 20.0, 50.0, 50.0, 0.0, 0));
 	PhysBody.Init(bboxData);
 }
+*/

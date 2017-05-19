@@ -48,13 +48,26 @@ public:
 		fRotate = rotate;
 		iType = type;
 	}
+
+	BoundingBox(Json::Value &node) {
+		iType = node["iType"].asInt();
+		localPosition.x = (float)node["localPosition"][0].asDouble();
+		localPosition.y = (float)node["localPosition"][1].asDouble();
+		Size.x = (float)node["Size"][0].asDouble();
+		Size.y = (float)node["Size"][1].asDouble();
+		fRotate = (float)node["fRotate"].asDouble();
+	}
 };
 
 class PhysicsBody {
 public:
 	PhysicsBody();
-	PhysicsBody(Vec2f Pos);
-	void Init(std::vector<BBoxData> bboxData);
+	PhysicsBody(Vec2f Pos); 
+	PhysicsBody(Json::Value &root);
+
+	//~PhysicsBody(){}
+
+	void Init(Vec2f pos);
 	BoundingBox CreateAABB(BoundingBox bbox);
 	BoundingBox CreateOutBox(std::vector<BoundingBox> bboxs);
 	void UpdatePos(Vec2f Pos);

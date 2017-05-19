@@ -10,13 +10,16 @@
 class GameObject {
 public:
 	GameObject() {}
-	GameObject(float x, float y, float w, float h) {
-		Position.x = x;
-		Position.y = y;
-		Size.x = w;
-		Size.y = h;
-		PhysBody = PhysicsBody(Position);
-		InitPhysicsBody(0.f, 0.f, w, h);
+	GameObject(Json::Value root) {
+		Position.x = (float)root["Position"][0].asDouble();
+		Position.y = (float)root["Position"][1].asDouble();
+		PhysBody = PhysicsBody(root["BoundingBox"]);
+		MySprite = Sprite(root["Sprite"]);
+		
+		//PhysBody = PhysicsBody(Position);
+		PhysBody.Init(Position);
+
+		Size = PhysBody.outBox.Size;
 	}
 	void print_Pos() {
 		printf("x: %.1f; y: %.1f;\n", Position.x, Position.y);
@@ -41,7 +44,7 @@ protected:
 class Player : public GameObject {
 public:
 	Player() {}
-	Player(float x, float y, float w, float h) : GameObject(x, y, w, h) {}
+	Player(Json::Value root) : GameObject(root) {}
 	
 
 	bool OnKeyboard(int Key) {
@@ -91,10 +94,10 @@ extern Player player;
 class Enemy : public GameObject {
 public:
 	Enemy() {}
-	Enemy(float x, float y, float w, float h) : GameObject(x, y, w, h) {}
+	Enemy(Json::Value root) : GameObject(root) {}
 };
 
-extern Enemy enemy;
+extern std::vector<Enemy> enemy;
 /*
 class GameObject_Player : public GameObject {
 public:

@@ -3,6 +3,9 @@
 
 #include <windows.h>
 #include <conio.h>
+#include <vector>
+#include "json/json.h"
+
 
 #define MAXNUM 1e9
 
@@ -64,11 +67,6 @@ struct Vec2i {
 		x = a;
 		y = b;
 	}
-};
-
-struct Point2D {
-	int x;
-	int y;
 };
 
 /*

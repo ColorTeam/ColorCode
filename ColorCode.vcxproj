@@ -162,6 +162,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="lib\json_reader.cpp" />
+    <ClCompile Include="lib\json_value.cpp" />
+    <ClCompile Include="lib\json_writer.cpp" />
     <ClCompile Include="src\Collision.cpp" />
     <ClCompile Include="src\GameObject.cpp" />
     <ClCompile Include="src\gpu_code.cpp" />

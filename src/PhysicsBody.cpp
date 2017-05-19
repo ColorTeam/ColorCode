@@ -9,6 +9,16 @@ PhysicsBody::PhysicsBody() {
 	//Init();
 }
 
+PhysicsBody::PhysicsBody(Json::Value &root) {
+	bboxList.clear();
+	int iBBoxNum = root.size();
+	for (int i = 0; i < iBBoxNum; i++) {
+		BoundingBox bbox(root[i]);
+		bboxList.push_back(bbox);
+	}
+	outBox = CreateOutBox(bboxList);
+}
+
 PhysicsBody::PhysicsBody(Vec2f Pos) {
 	Position = Pos;
 	PrePosition = Pos;
@@ -25,12 +35,9 @@ void PhysicsBody::add(Vec2f Position, Vec2f Size) {
 	bboxList.push_back(bbx);
 }
 
-void PhysicsBody::Init(std::vector<BBoxData> bboxData) {
-
-	for (unsigned int i = 0; i < bboxData.size(); i++) {
-		bboxList.push_back(BoundingBox(bboxData[0].fPosX, bboxData[0].fPosY, bboxData[0].fWidth, bboxData[0].fHeight, bboxData[0].iType, bboxData[0].fRotate));
-	}
-	outBox = CreateOutBox(bboxList);
+void PhysicsBody::Init(Vec2f pos) {
+	Position = pos;
+	PrePosition = pos;
 }
 
 //for Rotate
