@@ -23,7 +23,7 @@ PhysicsBody::PhysicsBody(Vec2f Pos) {
 	Position = Pos;
 	PrePosition = Pos;
 #if _DEBUG
-	printf("In Phy init:\n");
+	printf("In Physics init:\n");
 	printf("%f %f\n", Pos.x, Pos.y);
 #endif
 	bboxList.clear();
