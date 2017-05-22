@@ -6,8 +6,8 @@
 #include <vector>
 #include "json/json.h"
 
-
 #define MAXNUM 1e9
+#define MAX_TEX 10
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -19,19 +19,23 @@ class BigTex {
 public:
 	u32 *data;
 	int width, height;
+	unsigned int tex_id;
 	BigTex(int x, int y, u32* d) {
 		width = x;
 		height = y;
 		data = d;
+		tex_id = -1;
 	}
 	BigTex() {
 		width = 0;
 		height = 0;
 		data = NULL;
+		tex_id = -1;
 	}
 };
 
-int gl_work_init(int width0, int height0, BigTex bigtex);
+extern std::vector<BigTex> bigtex;
+int gl_work_init(int width0, int height0);
 
 class Vec2f {
 public:

@@ -4,9 +4,11 @@
 
 GLuint VBO;
 GLuint EBO;
-GLuint g_tex;
-int m_t = 6;
-int m_v = 18;
+//GLuint g_tex[MAX_TEX];
+//int texn = 0;
+
+int m_t = 2;// 6;
+int m_v = 4;// 18;
 GLRTT rtt;
 GLuint m_frameBuffer, m_colorBuffer;
 
@@ -82,9 +84,46 @@ unsigned int ebo[30000] = {
 * 渲染回调函数
 */
 void RenderScenceCB() {
+	SpriteFrame nowFrame;
+	//Render Player
+	nowFrame = player.getSpriteFrame();
+	for (int i = 0; i < 4; i++) {
+		vertices[i << 1] = player.getGLPosition().x + nowFrame.v[i].x / 1024 * 2;
+		vertices[(i << 1) + 1] = player.getGLPosition().y + nowFrame.v[i].y / 1024 * 2;
+	}
 	glClear(GL_COLOR_BUFFER_BIT);
-	glActiveTexture(g_tex);
-	glBindTexture(GL_TEXTURE_2D, g_tex);
+	glActiveTexture(bigtex[nowFrame.bigtexIndex].tex_id);
+	glBindTexture(GL_TEXTURE_2D, bigtex[nowFrame.bigtexIndex].tex_id);
+
+	glEnableVertexAttribArray(0);
+	glEnableVertexAttribArray(1);
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(float)*m_v * 2, vertices);// nowFrame.v);
+	glBufferSubData(GL_ARRAY_BUFFER, sizeof(float)*m_v * 2, sizeof(float)*m_v * 2, nowFrame.vt);
+	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, 0);
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (const GLvoid*)(m_v * 2 * sizeof(float)));
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+	glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, sizeof(float)*m_t * 3, nowFrame.ebo);
+	glDrawElements(GL_TRIANGLES, 3 * m_t, GL_UNSIGNED_INT, 0);
+	//glDrawArrays(GL_TRIANGLES, 0, 3*m_t);
+
+	//  禁用顶点数据
+	glDisableVertexAttribArray(0);
+	glDisableVertexAttribArray(1);
+
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	// 交换前后缓存
+	glFlush();
+	glutSwapBuffers();
+
+
+	/*
+	glClear(GL_COLOR_BUFFER_BIT);
+	//for (int i=0; i<bigtex.size(); i++)
+	glActiveTexture(bigtex[0].tex_id);
+	//glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, bigtex[0].tex_id);
 
 	// 开启顶点属性
 	glEnableVertexAttribArray(0);
@@ -111,6 +150,7 @@ void RenderScenceCB() {
 	// 交换前后缓存
 	glFlush();
 	glutSwapBuffers();
+	*/
 
 	/*
 	unsigned char* new_data = (unsigned char*)malloc(sizeof(unsigned char)*g_width*g_height*image_channels);
@@ -129,18 +169,18 @@ static void CreateVertexBuffer() {
 	// 绑定GL_ARRAY_BUFFER缓冲器
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	// 绑定顶点数据
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float)*m_v * 5, vertices, GL_DYNAMIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float)*m_v*4, vertices, GL_DYNAMIC_DRAW);
 }
 
 static void CreateIndexBuffer() {
 	glGenBuffers(1, &EBO);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int)*m_t * 3, ebo, GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int)*m_t * 3, ebo, GL_DYNAMIC_DRAW);
 }
 
-static void CreateTexture(BigTex bigtex) {
-	glGenTextures(1, &g_tex);
-	glBindTexture(GL_TEXTURE_2D, g_tex);
+static void CreateTexture(BigTex &bigtex) {
+	glGenTextures(1, &bigtex.tex_id);
+	glBindTexture(GL_TEXTURE_2D, bigtex.tex_id);
 	glTexImage2D(GL_TEXTURE_2D, 0, image_type, bigtex.width, bigtex.height, 0, image_type, GL_UNSIGNED_BYTE, bigtex.data);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
@@ -202,7 +242,7 @@ void glOnRender() {
 * 主函数
 */
 //initiate window size
-int gl_work_init(int width0, int height0, BigTex bigtex) {
+int gl_work_init(int width0, int height0) {
 	bool res = GLInit(0, 0);
 	if (!res) return 0;
 	glutReshapeWindow(width0, height0);
@@ -212,7 +252,8 @@ int gl_work_init(int width0, int height0, BigTex bigtex) {
 
 	CreateVertexBuffer();
 	CreateIndexBuffer();
-	CreateTexture(bigtex);
+	for (int i=0; i<bigtex.size(); i++)
+		CreateTexture(bigtex[i]);
 
 	GLProgram g_program;
 	g_program.CreateProgram();
