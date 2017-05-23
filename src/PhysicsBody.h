@@ -68,7 +68,6 @@ public:
 	//~PhysicsBody(){}
 
 	void Init(Vec2f pos);
-	BoundingBox CreateAABB(BoundingBox bbox);
 	BoundingBox CreateOutBox(std::vector<BoundingBox> bboxs);
 	void UpdatePos(Vec2f Pos);
 

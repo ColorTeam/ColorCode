@@ -40,28 +40,55 @@ void PhysicsBody::Init(Vec2f pos) {
 	PrePosition = pos;
 }
 
-//for Rotate
-BoundingBox PhysicsBody::CreateAABB(BoundingBox bbox) {
-	//float maxX = 0, minX = MAXNUM, maxY = 0, minY = MAXNUM;
-	BoundingBox bigBox(MAXNUM, MAXNUM, 0, 0, 0);
-
-	return bigBox;
-}
-
 BoundingBox PhysicsBody::CreateOutBox(std::vector<BoundingBox> bboxs) {
 	//float maxX = 0, minX = MAXNUM, maxY = 0, minY = MAXNUM;
 	BoundingBox bigBox(MAXNUM, MAXNUM, 0, 0, 0);
 	for (unsigned int i = 0; i < bboxs.size(); i++)
 	{
-		if (bboxs[i].localPosition.x < bigBox.localPosition.x)
-			bigBox.localPosition.x = bboxs[i].localPosition.x;
-		if (bboxs[i].localPosition.x + bboxs[i].Size.x > bigBox.localPosition.x + bigBox.Size.x)
-			bigBox.Size.x = bboxs[i].localPosition.x + bboxs[i].Size.x - bigBox.localPosition.x;
+		Vec2f leftDown (bboxs[i].localPosition.x, bboxs[i].localPosition.y);
+		Vec2f rightDown(bboxs[i].localPosition.x + bboxs[i].Size.x * std::cos(bboxs[i].fRotate), bboxs[i].localPosition.y + bboxs[i].Size.x * std::sin(bboxs[i].fRotate));
+		Vec2f leftUp   (bboxs[i].localPosition.x - bboxs[i].Size.y * std::sin(bboxs[i].fRotate), bboxs[i].localPosition.y + bboxs[i].Size.y * std::cos(bboxs[i].fRotate));
+		Vec2f rightUp  (leftUp.x + rightDown.x - leftDown.x, leftUp.y + rightDown.y - leftDown.y);
 
-		if (bboxs[i].localPosition.y < bigBox.localPosition.y)
-			bigBox.localPosition.y = bboxs[i].localPosition.y;
-		if (bboxs[i].localPosition.y + bboxs[i].Size.y > bigBox.localPosition.y + bigBox.Size.y)
-			bigBox.Size.y = bboxs[i].localPosition.y + bboxs[i].Size.y - bigBox.localPosition.y;
+		//minX
+		if (leftDown.x < bigBox.localPosition.x)
+			bigBox.localPosition.x = leftDown.x;
+		if (rightDown.x < bigBox.localPosition.x)
+			bigBox.localPosition.x = rightDown.x;
+		if (leftUp.x < bigBox.localPosition.x)
+			bigBox.localPosition.x = leftUp.x;
+		if (rightUp.x < bigBox.localPosition.x)
+			bigBox.localPosition.x = rightUp.x;
+
+		//maxX
+		if (leftDown.x > bigBox.localPosition.x + bigBox.Size.x)
+			bigBox.Size.x = leftDown.x - bigBox.localPosition.x;
+		if (rightDown.x > bigBox.localPosition.x + bigBox.Size.x)
+			bigBox.Size.x = rightDown.x - bigBox.localPosition.x;
+		if (leftUp.x > bigBox.localPosition.x + bigBox.Size.x)
+			bigBox.Size.x = leftUp.x - bigBox.localPosition.x;
+		if (rightUp.x > bigBox.localPosition.x + bigBox.Size.x)
+			bigBox.Size.x = rightUp.x - bigBox.localPosition.x;
+
+		//minY
+		if (leftDown.y < bigBox.localPosition.y)
+			bigBox.localPosition.y = leftDown.y;
+		if (rightDown.y < bigBox.localPosition.y)
+			bigBox.localPosition.y = rightDown.y;
+		if (leftUp.y < bigBox.localPosition.y)
+			bigBox.localPosition.y = leftUp.y;
+		if (rightUp.y < bigBox.localPosition.y)
+			bigBox.localPosition.y = rightUp.y;
+
+		//maxY
+		if (leftDown.y > bigBox.localPosition.y + bigBox.Size.y)
+			bigBox.Size.y = leftDown.y - bigBox.localPosition.y;
+		if (rightDown.y > bigBox.localPosition.y + bigBox.Size.y)
+			bigBox.Size.y = rightDown.y - bigBox.localPosition.y;
+		if (leftUp.y > bigBox.localPosition.y + bigBox.Size.y)
+			bigBox.Size.y = leftUp.y - bigBox.localPosition.y;
+		if (rightUp.y > bigBox.localPosition.y + bigBox.Size.y)
+			bigBox.Size.y = rightUp.y - bigBox.localPosition.y;
 	}
 	return bigBox;
 }
