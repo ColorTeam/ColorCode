@@ -1,6 +1,5 @@
 #include "gl_helper.h"
-#include "utils.h"
-#include "GameObject.h"
+#include "GlobalData.h"
 
 GLuint VBO;
 GLuint EBO;
@@ -85,7 +84,7 @@ unsigned int ebo[30000] = {
 */
 void RenderGameObject(SpriteFrame nowFrame, Vec2f Pos) {
 	for (int i = 0; i < 4; i++) {
-		vertices[i << 1] = Pos.x + nowFrame.v[i].x / 1024 * 2;
+		vertices[i << 1] = Pos.x + nowFrame.v[i].x / 1024 * 2 - g_data.getStartX();
 		vertices[(i << 1) + 1] = Pos.y + nowFrame.v[i].y / 1024 * 2;
 	}
 	glActiveTexture(bigtex[nowFrame.bigtexIndex].tex_id);
@@ -105,6 +104,11 @@ void RenderGameObject(SpriteFrame nowFrame, Vec2f Pos) {
 
 void RenderScenceCB() {
 	glClear(GL_COLOR_BUFFER_BIT);
+
+	//Render foregrounds
+	for (int index = 0; index < foreground.size(); index++) {
+		RenderGameObject(foreground[index].getSpriteFrame(), foreground[index].getGLPosition());
+	}
 
 	//Render enemys
 	for (int index = 0; index < enemy.size(); index++) {

@@ -10,17 +10,7 @@
 class GameObject {
 public:
 	GameObject() {}
-	GameObject(Json::Value root) {
-		Position.x = (float)root["Position"][0].asDouble();
-		Position.y = (float)root["Position"][1].asDouble();
-		PhysBody = PhysicsBody(root["BoundingBox"]);
-		MySprite = Sprite(root["Sprite"]);
-		
-		//PhysBody = PhysicsBody(Position);
-		PhysBody.Init(Position);
-
-		Size = PhysBody.outBox.Size;
-	}
+	GameObject(Json::Value root);
 	void print_Pos() {
 		printf("x: %.1f; y: %.1f;\n", Position.x, Position.y);
 	}
@@ -30,15 +20,11 @@ public:
 	inline Vec2f getGLSize() {
 		return Vec2f(Size.x/1024.f * 2.f, Size.y/1024.f * 2.f);
 	}
-
-	void InitPhysicsBody(float x, float y, float w, float h);
-
 	SpriteFrame getSpriteFrame() {
 		return MySprite.getFrame();
 	}
-
+	//void InitPhysicsBody(float x, float y, float w, float h);
 	PhysicsBody PhysBody;
-
 protected:
 	Vec2f Position;
 	Vec2f Size;
@@ -50,50 +36,13 @@ public:
 	Player() {}
 	Player(Json::Value root) : GameObject(root) {}
 	
-
-	bool OnKeyboard(int Key) {
-		bool Ret = true;
-
-		switch (Key) {
-
-		case GLUT_KEY_UP:
-		{
-			Position.y+=10;
-		}
-		break;
-
-		case GLUT_KEY_DOWN:
-		{
-			Position.y-= 10;
-		}
-		break;
-
-		case GLUT_KEY_LEFT:
-		{
-			Position.x-= 10;
-		}
-		break;
-
-		case GLUT_KEY_RIGHT:
-		{
-			Position.x+= 10;
-		}
-		break;
-
-		default:
-		{
-			Ret = false;
-		}
-		break;
-
-		}
-
+	bool OnKeyboard(int Key);
+	void updateStep(Vec2f tmp) {
+		Position += tmp;
 		PhysBody.UpdatePos(Position);
-		return Ret;
 	}
+	inline float getPosX() { return Position.x; }
 };
-
-extern Player player;
 
 class Enemy : public GameObject {
 public:
@@ -101,7 +50,15 @@ public:
 	Enemy(Json::Value root) : GameObject(root) {}
 };
 
-extern std::vector<Enemy> enemy;
+class Foreground : public GameObject {
+public:
+	Foreground() {}
+	Foreground(Json::Value root) : GameObject(root) {}
+	/*void updateStep(Vec2f tmp) {
+		Position -= tmp;
+		PhysBody.UpdatePos(Position);
+	}*/
+};
 /*
 class GameObject_Player : public GameObject {
 public:

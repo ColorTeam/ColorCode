@@ -6,9 +6,7 @@
 #include <string>
 
 //inner head files
-#include "GameObject.h"
-#include "Collision.h"
-#include "utils.h"
+#include "GlobalData.h"
 
 //stb_image
 #define STB_IMAGE_IMPLEMENTATION 1
@@ -16,32 +14,57 @@
 #include <stb_image.h>
 #include <stb_image_write.h>
 
-//inner define
-#define USE_PACKAGE  0
-
 using namespace std;
 
-const int image_channels = 4;
-
-Player player;
-vector<Enemy> enemy;
-//vector<Foreground> foreground;
-
-Collision colli;
-vector<BigTex> bigtex;
-
-static bool EndGameFlag = false;
-
-void ReadJson() {
-	
+bool ReadJson(const char* file_name) {
+	Json::Reader reader;
+	Json::Value root;
+	ifstream ifs;
+	ifs.open(file_name, std::ios::binary);
+	if (!ifs) {
+		cerr << "open " << file_name << " failed!" << endl;
+		Sleep(5000);
+		return false;
+	}
+	if (!reader.parse(ifs, root)) {
+		cerr << "cannot parser " << file_name << "!" << endl;
+		Sleep(5000);
+		return false;
+	}
+	int rootSize = root.size();
+	for (int rootIndex = 0; rootIndex < rootSize; rootIndex++) {
+		string type = root[rootIndex]["Type"].asString();
+		if (type == "Player") {
+			player = Player(root[rootIndex]);
+		}
+		else if (type == "Enemy") {
+			enemy.push_back(Enemy(root[rootIndex]));
+		}
+		else if (type == "Foreground") {
+			foreground.push_back(Foreground(root[rootIndex]));
+		}
+	}
+	return true;
 }
 
 bool OnKeyboard(int Key) {
-	bool ret = player.OnKeyboard(Key);
+	//bool ret = player.OnKeyboard(Key);
+	bool Ret = true;
+	Vec2f tmp_pos(0.0, 0.0);
+	switch (Key) {
+		case GLUT_KEY_UP: tmp_pos.y = g_data.getStep().y; break;
+		case GLUT_KEY_DOWN: tmp_pos.y = -g_data.getStep().y; break;
+		case GLUT_KEY_LEFT: tmp_pos.x = -g_data.getStep().x; break;
+		case GLUT_KEY_RIGHT: tmp_pos.x = g_data.getStep().x; break;
+		default: Ret = false; break;
+	}
+	if (!Ret) return false;
+	player.updateStep(tmp_pos);
+	g_data.updataStartX(player.getPosX());
 #if _DEBUG
 	player.print_Pos();
 #endif
-	return ret;
+	return Ret;
 }
 
 //game loop and render loop
@@ -67,53 +90,26 @@ int main() {
 	int xx, yy, nn;
 	char tmp_name[128];
 	u32 *tex;
-	Json::Reader reader;
-	Json::Value root;
 #if USE_PACKAGE == 1
 	// use package
 #else
 	for (int i = 0; i < MAX_TEX; i++) {
 		sprintf(tmp_name, "res/bigtex%02d.png", i);
-		tex = (u32*)stbi_load(tmp_name, &xx, &yy, &nn, image_channels);
+		tex = (u32*)stbi_load(tmp_name, &xx, &yy, &nn, ImageChannels);
 		if (!tex) break;
 #if _DEBUG
 		printf("loadtex: %s\n", tmp_name);
 #endif
 		bigtex.push_back(BigTex(xx, yy, tex));
 	}
-	//big1 = (u32*)stbi_load("res/bigtex01.png", &xx, &yy, &nn, image_channels);
-
-	ifstream ifs;
-	ifs.open("res/desc.json", std::ios::binary);
-	if (!ifs) {
-		cerr << "open 'res/desc.json' failed!" << endl;
-		Sleep(5000);
-		return -1;
-	}
-	if (!reader.parse(ifs, root)) {
-		cerr << "cannot parser 'res/desc.json'!" << endl;
-		Sleep(5000);
-		return -1;
-	}
-	int rootSize = root.size();
-	for (int rootIndex = 0; rootIndex < rootSize; rootIndex++) {
-		string type = root[rootIndex]["Type"].asString();
-		if (type == "Player") {
-			player = Player(root[rootIndex]);
-		}
-		else if (type == "Enemy") {
-			enemy.push_back(Enemy(root[rootIndex]));
-		}
-		else if (type == "Foreground") {
-			//
-		}
-	}
+	//ReadJson("res/desc.json");
+	ReadJson("res/desc_huiwen.json");
 #endif
 
 	gl_work_init(500, 500);
 
 	//game loop
-	while (!EndGameFlag) {
+	while (!g_data.isGameEnd()) {
 		game_main_loop();
 	}
 }

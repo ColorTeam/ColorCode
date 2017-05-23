@@ -7,7 +7,6 @@
 #include "json/json.h"
 
 #define MAXNUM 1e9
-#define MAX_TEX 10
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -34,7 +33,6 @@ public:
 	}
 };
 
-extern std::vector<BigTex> bigtex;
 int gl_work_init(int width0, int height0);
 
 class Vec2f {
@@ -54,9 +52,18 @@ public:
 		y = a.y;
 		return *this;
 	}
-
 	Vec2f operator+(const Vec2f& a) {
 		return Vec2f(x+a.x,y+a.y);
+	}
+	Vec2f& operator+=(const Vec2f& a) {
+		x += a.x;
+		y += a.y;
+		return *this;
+	}
+	Vec2f& operator-=(const Vec2f& a) {
+		x -= a.x;
+		y -= a.y;
+		return *this;
 	}
 };
 
@@ -89,4 +96,6 @@ int ListenUserInput() {
 	}
 }
 */
+
+
 #endif //UTILS_C_INCLUDE
