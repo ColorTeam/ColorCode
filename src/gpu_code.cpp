@@ -83,15 +83,11 @@ unsigned int ebo[30000] = {
 /**
 * 渲染回调函数
 */
-void RenderScenceCB() {
-	SpriteFrame nowFrame;
-	//Render Player
-	nowFrame = player.getSpriteFrame();
+void RenderGameObject(SpriteFrame nowFrame, Vec2f Pos) {
 	for (int i = 0; i < 4; i++) {
-		vertices[i << 1] = player.getGLPosition().x + nowFrame.v[i].x / 1024 * 2;
-		vertices[(i << 1) + 1] = player.getGLPosition().y + nowFrame.v[i].y / 1024 * 2;
+		vertices[i << 1] = Pos.x + nowFrame.v[i].x / 1024 * 2;
+		vertices[(i << 1) + 1] = Pos.y + nowFrame.v[i].y / 1024 * 2;
 	}
-	glClear(GL_COLOR_BUFFER_BIT);
 	glActiveTexture(bigtex[nowFrame.bigtexIndex].tex_id);
 	glBindTexture(GL_TEXTURE_2D, bigtex[nowFrame.bigtexIndex].tex_id);
 
@@ -105,19 +101,28 @@ void RenderScenceCB() {
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 	glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, sizeof(float)*m_t * 3, nowFrame.ebo);
 	glDrawElements(GL_TRIANGLES, 3 * m_t, GL_UNSIGNED_INT, 0);
-	//glDrawArrays(GL_TRIANGLES, 0, 3*m_t);
+}
 
+void RenderScenceCB() {
+	glClear(GL_COLOR_BUFFER_BIT);
+
+	//Render enemys
+	for (int index = 0; index < enemy.size(); index++) {
+		RenderGameObject(enemy[index].getSpriteFrame(), enemy[index].getGLPosition());
+	}
+
+	//Render Player
+	RenderGameObject(player.getSpriteFrame(), player.getGLPosition());
+	
 	//  禁用顶点数据
 	glDisableVertexAttribArray(0);
 	glDisableVertexAttribArray(1);
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-	// 交换前后缓存
+
 	glFlush();
 	glutSwapBuffers();
-
-
 	/*
 	glClear(GL_COLOR_BUFFER_BIT);
 	//for (int i=0; i<bigtex.size(); i++)
@@ -248,7 +253,7 @@ int gl_work_init(int width0, int height0) {
 	glutReshapeWindow(width0, height0);
 	glutDisplayFunc(RenderScenceCB);
 	glutSpecialFunc(SpecialKeyboardCB);
-	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+	glClearColor(0.0f, 0.0f, 1.0f, 1.0f);
 
 	CreateVertexBuffer();
 	CreateIndexBuffer();

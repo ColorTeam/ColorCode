@@ -76,7 +76,9 @@ int main() {
 		sprintf(tmp_name, "res/bigtex%02d.png", i);
 		tex = (u32*)stbi_load(tmp_name, &xx, &yy, &nn, image_channels);
 		if (!tex) break;
+#if _DEBUG
 		printf("loadtex: %s\n", tmp_name);
+#endif
 		bigtex.push_back(BigTex(xx, yy, tex));
 	}
 	//big1 = (u32*)stbi_load("res/bigtex01.png", &xx, &yy, &nn, image_channels);
