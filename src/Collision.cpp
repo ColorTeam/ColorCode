@@ -11,14 +11,14 @@ Collision::Collision() {
 //vec and axis are unit vector
 //length is the length of vec
 inline float getProjR(Vec2f axis, Vec2f unitVec, float length) {
-	return length * std::abs(unitVec.x*axis.x + unitVec.y*axis.y)/2;
+	return length * std::abs(unitVec.x*axis.x + unitVec.y*axis.y);
 }
 
 // to get the radius of projection(half of the length) that is projected from vec on axis
 //axis is unit vector
 //vec includes length
 inline float getProjR(Vec2f axis, Vec2f vec) {
-	return std::abs(vec.x*axis.x + vec.y*axis.y) / 2;
+	return std::abs(vec.x*axis.x + vec.y*axis.y);
 }
 
 inline bool isIntersect(Vec2f axis, Vec2f vecX, Vec2f vecY, Vec2f centerVec, Vec2f size){
@@ -40,16 +40,17 @@ int Collision::BBoxCollide(BoundingBox& bboxA, BoundingBox& bboxB, Vec2f PosA, V
 	//printf("boxA: pre(%f,%f), cur(%f,%f), size(%f,%f)\n", PrePosA.x, PrePosA.y, PosA.x, PosA.y, bboxA.Size.x, bboxA.Size.y);
 	//printf("boxB: pre(%f,%f), cur(%f,%f), size(%f,%f)\n", PrePosB.x, PrePosB.y, PosB.x, PosB.y, bboxB.Size.x, bboxB.Size.y);
 
+	isCollision = 1;
 	if (bboxA.iType == 0) {//rect
 		if (bboxB.iType == 0) {//rect
-			if(getProjR(axisBx, centerVec) < getProjR(axisBx, axisAx, bboxA.Size.x) + getProjR(axisBx, axisAy, bboxA.Size.y)) {
-				isCollision = 1;
-			} else if (getProjR(axisBy, centerVec) < getProjR(axisBy, axisAx, bboxA.Size.x) + getProjR(axisBy, axisAy, bboxA.Size.y)) {
-				isCollision = 1;
-			} else if (getProjR(axisAx, centerVec) < getProjR(axisAx, axisBx, bboxB.Size.x) + getProjR(axisAx, axisBy, bboxB.Size.y)) {
-				isCollision = 1;
-			} else if (getProjR(axisAy, centerVec) < getProjR(axisAy, axisBx, bboxB.Size.x) + getProjR(axisAy, axisBy, bboxB.Size.y)) {
-				isCollision = 1;
+			if (getProjR(axisAx, centerVec) >= getProjR(axisAx, axisAx, bboxA.Size.x / 2) + getProjR(axisAx, axisAy, bboxA.Size.y / 2) + getProjR(axisAx, axisBx, bboxB.Size.x/2) + getProjR(axisAx, axisBy, bboxB.Size.y/2)) {
+				isCollision = 0;
+			}else if (getProjR(axisAy, centerVec) >= getProjR(axisAy, axisAx, bboxA.Size.x / 2) + getProjR(axisAy, axisAy, bboxA.Size.y / 2) + getProjR(axisAy, axisBx, bboxB.Size.x/2) + getProjR(axisAy, axisBy, bboxB.Size.y/2)) {
+				isCollision = 0;
+			}else if (getProjR(axisBx, centerVec) >= getProjR(axisBx, axisAx, bboxA.Size.x / 2) + getProjR(axisBx, axisAy, bboxA.Size.y / 2) + getProjR(axisBx, axisBx, bboxB.Size.x / 2) + getProjR(axisBx, axisBy, bboxB.Size.y / 2)) {
+				isCollision = 0;
+			}else if (getProjR(axisBy, centerVec) >= getProjR(axisBy, axisAx, bboxA.Size.x / 2) + getProjR(axisBy, axisAy, bboxA.Size.y / 2) + getProjR(axisBy, axisBx, bboxB.Size.x / 2) + getProjR(axisBy, axisBy, bboxB.Size.y / 2)) {
+				isCollision = 0;
 			}
 
 			if (isCollision)
