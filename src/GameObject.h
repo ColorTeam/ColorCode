@@ -33,6 +33,10 @@ public:
 
 	void InitPhysicsBody(float x, float y, float w, float h);
 
+	SpriteFrame getSpriteFrame() {
+		return MySprite.getFrame();
+	}
+
 	PhysicsBody PhysBody;
 
 protected:

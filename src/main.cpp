@@ -60,17 +60,27 @@ void game_main_loop() {
 }
 
 int main() {
+	bigtex.clear();
 	enemy.clear();
 	//foreground.clear();
 
 	int xx, yy, nn;
-	u32 *big0, *big1;
+	char tmp_name[128];
+	u32 *tex;
 	Json::Reader reader;
 	Json::Value root;
 #if USE_PACKAGE == 1
 	// use package
 #else
-	big0 = (u32*)stbi_load("res/bigtex.png", &xx, &yy, &nn, image_channels);
+	for (int i = 0; i < MAX_TEX; i++) {
+		sprintf(tmp_name, "res/bigtex%02d.png", i);
+		tex = (u32*)stbi_load(tmp_name, &xx, &yy, &nn, image_channels);
+		if (!tex) break;
+#if _DEBUG
+		printf("loadtex: %s\n", tmp_name);
+#endif
+		bigtex.push_back(BigTex(xx, yy, tex));
+	}
 	//big1 = (u32*)stbi_load("res/bigtex01.png", &xx, &yy, &nn, image_channels);
 
 	ifstream ifs;
@@ -99,9 +109,8 @@ int main() {
 		}
 	}
 #endif
-	bigtex.push_back(BigTex(xx, yy, big0));
-	//bigtex.push_back(BigTex(xx, yy, big1));
-	gl_work_init(500, 500, bigtex[0]);
+
+	gl_work_init(500, 500);
 
 	//game loop
 	while (!EndGameFlag) {

@@ -9,9 +9,12 @@ in float flag;
 void main()  
 {
     vec4 C = texture2D(tex, st);
-	//FragColor = vec4(C.a, C.a, C.a, 0.0);
-	FragColor = C;
+	float tmp;
+	if (C.a == 1.0) tmp = 1.0;
+	else tmp = 0.0;
+	//FragColor = vec4(C.a, C.a, C.a, tmp);
+	FragColor = vec4(C.rgb, tmp);
 
-	if (flag == 0.1) FragColor = vec4(1.0, 0.0, 0.0, 1.0);
-	if (flag == 0.2) FragColor = vec4(0.0, 0.0, 1.0, 1.0);
+	//if (flag == 0.1) FragColor = vec4(1.0, 0.0, 0.0, 1.0);
+	//if (flag == 0.2) FragColor = vec4(0.0, 0.0, 1.0, 1.0);
 }
