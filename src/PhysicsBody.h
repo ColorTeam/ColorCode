@@ -4,6 +4,8 @@
 #include <vector>
 #include "utils.h"
 
+#define M_PI 3.14159
+
 //temp structure
 //to be replaced by duktape
 struct BBoxData {
@@ -55,7 +57,16 @@ public:
 		localPosition.y = (float)node["localPosition"][1].asDouble();
 		Size.x = (float)node["Size"][0].asDouble();
 		Size.y = (float)node["Size"][1].asDouble();
-		fRotate = (float)node["fRotate"].asDouble();
+		fRotate = (float)node["fRotate"].asDouble() * M_PI / 180.f;
+	}
+
+	//get the global position of center point
+	Vec2f GetCenterPos(Vec2f pos) {
+		Vec2f leftDown(pos.x, pos.y);
+		Vec2f rightDown(pos.x + Size.x * std::cos(fRotate), pos.y + Size.x * std::sin(fRotate));
+		Vec2f leftUp(pos.x - Size.y * std::sin(fRotate), pos.y + Size.y * std::cos(fRotate));
+		Vec2f rightUp(leftUp.x + rightDown.x - leftDown.x, leftUp.y + rightDown.y - leftDown.y);
+		return Vec2f((leftDown.x + rightUp.x) / 2, (leftDown.y + rightUp.y) / 2);
 	}
 };
 

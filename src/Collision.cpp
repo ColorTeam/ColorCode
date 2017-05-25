@@ -34,9 +34,12 @@ int Collision::BBoxCollide(BoundingBox& bboxA, BoundingBox& bboxB, Vec2f PosA, V
 	Vec2f axisAx(std::cos(bboxA.fRotate), std::sin(bboxA.fRotate)),
 		axisAy(-std::sin(bboxA.fRotate), std::cos(bboxA.fRotate)),
 		axisBx(std::cos(bboxB.fRotate), std::sin(bboxB.fRotate)),
-		axisBy(-std::sin(bboxA.fRotate), std::cos(bboxB.fRotate));
+		axisBy(-std::sin(bboxB.fRotate), std::cos(bboxB.fRotate));
 
-	Vec2f centerVec((PosB.x + bboxB.Size.x / 2)-(PosA.x + bboxA.Size.x / 2), (PosB.y + bboxB.Size.y / 2) - (PosA.y + bboxA.Size.y / 2));
+	Vec2f centerVec(bboxB.GetCenterPos(PosB).x - bboxA.GetCenterPos(PosA).x, bboxB.GetCenterPos(PosB).y - bboxA.GetCenterPos(PosA).y);
+	//printf("bx: %f, ax: %f, by: %f, ay: %f", bboxB.GetCenterPos(PosB).x, bboxA.GetCenterPos(PosA).x, bboxB.GetCenterPos(PosB).y, bboxA.GetCenterPos(PosA).y);
+	//Vec2f centerVec((PosB.x + std::cos(bboxB.fRotate) * bboxB.Size.x / 2)-(PosA.x + std::cos(bboxA.fRotate) * bboxA.Size.x / 2), (PosB.y + std::sin(bboxB.fRotate) * bboxB.Size.y / 2) - (PosA.y + std::sin(bboxA.fRotate) * bboxA.Size.y / 2));
+	//printf("1: %f, 2: %f, 3: %f, 4: %f", PosB.x + std::cos(bboxB.fRotate) * bboxB.Size.x / 2, PosA.x + std::cos(bboxA.fRotate) * bboxA.Size.x / 2, PosB.y + std::sin(bboxB.fRotate) * bboxB.Size.y / 2, PosA.y + std::sin(bboxA.fRotate) * bboxA.Size.y / 2);
 	//printf("boxA: pre(%f,%f), cur(%f,%f), size(%f,%f)\n", PrePosA.x, PrePosA.y, PosA.x, PosA.y, bboxA.Size.x, bboxA.Size.y);
 	//printf("boxB: pre(%f,%f), cur(%f,%f), size(%f,%f)\n", PrePosB.x, PrePosB.y, PosB.x, PosB.y, bboxB.Size.x, bboxB.Size.y);
 
@@ -53,8 +56,8 @@ int Collision::BBoxCollide(BoundingBox& bboxA, BoundingBox& bboxB, Vec2f PosA, V
 				isCollision = 0;
 			}
 
-			if (isCollision)
-				printf("hahaha");
+			//if (isCollision)
+				//printf("hahaha");
 			//old
 //			float disWidth = std::abs((PosA.x + bboxA.Size.x / 2) - (PosB.x + bboxB.Size.x / 2));
 //			float disHeight = std::abs((PosA.y + bboxA.Size.y / 2) - (PosB.y + bboxB.Size.y / 2));
@@ -195,8 +198,11 @@ int Collision::PBodyCollide(PhysicsBody bodyA, PhysicsBody bodyB) {
 			isCollision = BBoxCollide(bodyA.bboxList[i], bodyB.bboxList[j],
 				bodyA.Position + bodyA.bboxList[i].localPosition, bodyB.Position + bodyB.bboxList[j].localPosition,
 				bodyA.PrePosition + bodyA.bboxList[i].localPosition, bodyB.PrePosition + bodyB.bboxList[j].localPosition);
-			if (isCollision)
+			if (isCollision) {
+				printf("hahahaha");
 				return isCollision;
+
+			}
 		}
 	}
 
