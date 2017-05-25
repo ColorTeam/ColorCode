@@ -25,8 +25,8 @@ public:
 	inline bool isGameEnd() { return EndGameFlag; }
 	inline float getStartX() { return ViewStartX; }
 	inline bool updataStartX(float playerX) {
-		if (playerX <= MaxPlayerPosX) return false;
-		ViewStartX = playerX - MaxPlayerPosX;
+		if (playerX - ViewStartX <= MaxPlayerPosX) return false;
+		ViewStartX += playerX - ViewStartX - MaxPlayerPosX;
 		return true;
 	}
 private:

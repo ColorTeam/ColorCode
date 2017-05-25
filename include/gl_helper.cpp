@@ -16,7 +16,7 @@ const char* ReadAll(char* filepath) {
 bool GLInit(int argc, char **argv, int width, int height, const char *title) {
 	// 初始化GLUT
 	glutInit(&argc, argv);
-	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA);
+	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA); 
 
 	glutInitWindowSize(width, height);      // 窗口尺寸
 	glutInitWindowPosition(100, 100);  // 窗口位置

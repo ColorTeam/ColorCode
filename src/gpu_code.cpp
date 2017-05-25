@@ -84,7 +84,7 @@ unsigned int ebo[30000] = {
 */
 void RenderGameObject(SpriteFrame nowFrame, Vec2f Pos) {
 	for (int i = 0; i < 4; i++) {
-		vertices[i << 1] = Pos.x + nowFrame.v[i].x / 1024 * 2 - g_data.getStartX();
+		vertices[i << 1] = Pos.x + nowFrame.v[i].x / 1024 * 2 - g_data.getStartX() / 1024 * 2;
 		vertices[(i << 1) + 1] = Pos.y + nowFrame.v[i].y / 1024 * 2;
 	}
 	glActiveTexture(bigtex[nowFrame.bigtexIndex].tex_id);
@@ -104,6 +104,8 @@ void RenderGameObject(SpriteFrame nowFrame, Vec2f Pos) {
 
 void RenderScenceCB() {
 	glClear(GL_COLOR_BUFFER_BIT);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glEnable(GL_BLEND);
 
 	//Render foregrounds
 	for (int index = 0; index < foreground.size(); index++) {
@@ -125,6 +127,7 @@ void RenderScenceCB() {
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
+	//glDisable(GL_BLEND);
 	glFlush();
 	glutSwapBuffers();
 	/*
