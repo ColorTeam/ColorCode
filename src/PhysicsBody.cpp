@@ -17,6 +17,10 @@ PhysicsBody::PhysicsBody(Json::Value &root) {
 		bboxList.push_back(bbox);
 	}
 	outBox = CreateOutBox(bboxList);
+	Vel.x = 0.0f;
+	Vel.y = 0.0f;
+	Acc.x = 0.0f;
+	Acc.y = 9.8f;
 }
 
 PhysicsBody::PhysicsBody(Vec2f Pos) {

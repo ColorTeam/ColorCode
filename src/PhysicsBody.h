@@ -89,6 +89,8 @@ public:
 
 	Vec2f PrePosition;
 	Vec2f Position;
+	Vec2f Vel;
+	Vec2f Acc;
 };
 
 #endif //PHYSICS_BODY_H_INCLUDE
